@@ -1,4 +1,4 @@
-package com.example.composenotesapp.ui.screens
+package com.example.composenotesapp.ui.notes
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,22 +22,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.composenotesapp.R
-import com.example.composenotesapp.ui.notes.NotesEvent
-import com.example.composenotesapp.ui.notes.NotesViewModel
+import com.example.composenotesapp.ui.Route
 import com.example.composenotesapp.ui.notes.components.OrderSection
 
-@Preview
 @Composable
 fun NotesScreen(
+    navController: NavHostController,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.notesState.value
 
-    Scaffold {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate(Route.AddEditNote.name) },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
