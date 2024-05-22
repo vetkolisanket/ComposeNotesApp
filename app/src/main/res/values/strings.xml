@@ -6,4 +6,6 @@
     <string name="color">Color</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
+    <string name="enter_title">Enter title...</string>
+    <string name="enter_some_content">Enter some content</string>
 </resources>
