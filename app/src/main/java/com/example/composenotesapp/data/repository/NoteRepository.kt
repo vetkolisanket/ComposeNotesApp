@@ -33,4 +33,13 @@ class NoteRepository @Inject constructor(
             dao.deleteNote(note.toNoteDataModel())
         }
     }
+
+    override suspend fun getNote(noteId: Int): Flow<NoteDomainModel> {
+        return withContext(dispatchers.io) {
+            dao.getNote(noteId).map {
+                it.toNoteDomainModel()
+            }
+        }
+
+    }
 }

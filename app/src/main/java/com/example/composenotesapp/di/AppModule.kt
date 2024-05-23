@@ -6,6 +6,7 @@ import com.example.composenotesapp.data.source.local.NoteDatabase
 import com.example.composenotesapp.domain.repository.INoteRepository
 import com.example.composenotesapp.domain.use_case.AddNote
 import com.example.composenotesapp.domain.use_case.DeleteNote
+import com.example.composenotesapp.domain.use_case.GetNote
 import com.example.composenotesapp.domain.use_case.GetNotes
 import com.example.composenotesapp.domain.use_case.NotesUseCases
 import dagger.Module
@@ -35,7 +36,8 @@ object AppModule {
     fun provideNotesUseCases(repository: INoteRepository) = NotesUseCases(
         AddNote(repository),
         GetNotes(repository),
-        DeleteNote(repository)
+        DeleteNote(repository),
+        GetNote(repository)
     )
 
 }

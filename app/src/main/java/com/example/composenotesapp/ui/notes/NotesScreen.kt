@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -98,17 +99,25 @@ fun NotesScreen(
                 items(state.notes) { note ->
                     NoteItem(
                         note = note,
-                        modifier = Modifier.fillMaxWidth()
-                    ) { noteToDelete ->
-                        viewModel.onEvent(NotesEvent.DeleteNote(noteToDelete))
-                        scope.launch {
-                            val result =
-                                snackbarHostState.showSnackbar("Note Deleted", "Undo")
-                            if (result == SnackbarResult.ActionPerformed) {
-                                viewModel.onEvent(NotesEvent.RestoreNote)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    Route.AddEditNote.name +
+                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                )
+                            },
+                        onDeleteNote = { noteToDelete ->
+                            viewModel.onEvent(NotesEvent.DeleteNote(noteToDelete))
+                            scope.launch {
+                                val result =
+                                    snackbarHostState.showSnackbar("Note Deleted", "Undo")
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                }
                             }
                         }
-                    }
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }

@@ -20,4 +20,7 @@ abstract class NoteDao {
     @Delete
     abstract fun deleteNote(note: NoteDataModel)
 
+    @Query("SELECT * FROM notedatamodel WHERE id = :noteId")
+    abstract fun getNote(noteId: Int): Flow<NoteDataModel>
+
 }

@@ -3,6 +3,7 @@ package com.example.composenotesapp.ui.add_edit_note
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composenotesapp.InvalidNoteException
@@ -12,12 +13,14 @@ import com.example.composenotesapp.ui.models.NoteUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
-    val notesUseCases: NotesUseCases
+    val notesUseCases: NotesUseCases,
+    val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _noteTitleState = mutableStateOf(
@@ -39,6 +42,28 @@ class AddEditNoteViewModel @Inject constructor(
 
     private val _eventFlow = MutableSharedFlow<UIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    private var currentNoteId: Int? = null
+
+    init {
+        savedStateHandle.get<Int>("noteId")?.let { noteId ->
+            if (noteId != -1) {
+                viewModelScope.launch {
+                    notesUseCases.getNote(noteId).collectLatest { note ->
+                        currentNoteId = note.id
+                        _noteTitleState.value = noteTitleState.value.copy(
+                            text = note.title,
+                            isHintVisible = false
+                        )
+                        _noteContentState.value = noteContentState.value.copy(
+                            text = note.content,
+                            isHintVisible = false
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     fun onEvent(event: AddEditNoteEvent) {
         when (event) {
@@ -80,7 +105,8 @@ class AddEditNoteViewModel @Inject constructor(
                                 title = noteTitleState.value.text,
                                 content = noteContentState.value.text,
                                 time = System.currentTimeMillis(),
-                                color = noteColorState.value
+                                color = noteColorState.value,
+                                id = currentNoteId
                             )
                         )
                         _eventFlow.emit(UIEvent.SaveNote)
