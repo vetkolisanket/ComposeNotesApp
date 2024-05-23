@@ -1,0 +1,35 @@
+package com.example.composenotesapp.di
+
+import android.content.Context
+import androidx.room.Room
+import com.example.composenotesapp.data.source.local.NoteDatabase
+import com.example.composenotesapp.domain.repository.INoteRepository
+import com.example.composenotesapp.domain.use_case.AddNote
+import com.example.composenotesapp.domain.use_case.NotesUseCases
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): NoteDatabase {
+        return Room.databaseBuilder(context, NoteDatabase::class.java, NoteDatabase.DATABASE_NAME)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDao(database: NoteDatabase) = database.dao
+
+    @Provides
+    @Singleton
+    fun provideNotesUseCases(repository: INoteRepository) = NotesUseCases(AddNote(repository))
+
+}

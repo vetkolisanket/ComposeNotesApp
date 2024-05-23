@@ -19,7 +19,7 @@ fun NotesNavHost(navController: NavHostController) {
             NotesScreen(navController)
         }
         composable(Route.AddEditNote.name) {
-            AddEditNoteScreen()
+            AddEditNoteScreen(navController = navController)
         }
     }
 }

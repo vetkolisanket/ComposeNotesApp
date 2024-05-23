@@ -69,6 +69,12 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     //Icons extended
     implementation(libs.androidx.material.icons.extended)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
