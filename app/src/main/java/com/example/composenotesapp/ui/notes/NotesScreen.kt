@@ -8,8 +8,13 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
@@ -27,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.composenotesapp.R
 import com.example.composenotesapp.ui.Route
+import com.example.composenotesapp.ui.notes.components.NoteItem
 import com.example.composenotesapp.ui.notes.components.OrderSection
 
 @Composable
@@ -71,6 +77,19 @@ fun NotesScreen(
                 exit = fadeOut() + slideOutVertically()
             ) {
                 OrderSection()
+            }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(state.notes) { note ->
+                    NoteItem(
+                        note = note,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }

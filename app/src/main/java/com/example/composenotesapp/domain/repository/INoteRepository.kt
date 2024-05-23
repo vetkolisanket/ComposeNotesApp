@@ -1,9 +1,11 @@
 package com.example.composenotesapp.domain.repository
 
 import com.example.composenotesapp.domain.model.NoteDomainModel
+import kotlinx.coroutines.flow.Flow
 
 interface INoteRepository {
 
     suspend fun insertNote(note: NoteDomainModel)
+    suspend fun getNotes(): Flow<List<NoteDomainModel>>
 
 }

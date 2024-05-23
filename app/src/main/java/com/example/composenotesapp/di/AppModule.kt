@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.composenotesapp.data.source.local.NoteDatabase
 import com.example.composenotesapp.domain.repository.INoteRepository
 import com.example.composenotesapp.domain.use_case.AddNote
+import com.example.composenotesapp.domain.use_case.GetNotes
 import com.example.composenotesapp.domain.use_case.NotesUseCases
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNotesUseCases(repository: INoteRepository) = NotesUseCases(AddNote(repository))
+    fun provideNotesUseCases(repository: INoteRepository) = NotesUseCases(
+        AddNote(repository),
+        GetNotes(repository)
+    )
 
 }
