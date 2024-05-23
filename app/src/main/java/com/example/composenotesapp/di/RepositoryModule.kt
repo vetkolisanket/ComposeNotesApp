@@ -1,5 +1,7 @@
 package com.example.composenotesapp.di
 
+import com.example.composenotesapp.DispatcherProvider
+import com.example.composenotesapp.IDispatcherProvider
 import com.example.composenotesapp.data.repository.NoteRepository
 import com.example.composenotesapp.domain.repository.INoteRepository
 import dagger.Binds
@@ -15,5 +17,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindNoteRepository(repository: NoteRepository): INoteRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDispatcherProvider(dispatcherProvider: DispatcherProvider): IDispatcherProvider
 
 }
