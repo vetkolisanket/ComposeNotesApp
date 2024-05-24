@@ -51,6 +51,7 @@ fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.notesState.value
+
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -91,7 +92,12 @@ fun NotesScreen(
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
             ) {
-                OrderSection()
+                OrderSection(
+                    order = state.noteOrder,
+                    onOrderChange = { noteOrder ->
+                        viewModel.onEvent(NotesEvent.ChangeOrder(noteOrder))
+                    }
+                )
             }
             LazyColumn(
                 modifier = Modifier.fillMaxSize()

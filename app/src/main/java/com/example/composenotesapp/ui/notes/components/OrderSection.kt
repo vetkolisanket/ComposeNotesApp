@@ -5,39 +5,41 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.composenotesapp.R
+import com.example.composenotesapp.domain.util.NoteOrder
+import com.example.composenotesapp.domain.util.OrderType
 
 @Composable
-fun OrderSection() {
+fun OrderSection(
+    order: NoteOrder,
+    onOrderChange: (NoteOrder) -> Unit
+) {
     Column {
         Row {
             DefaultRadioButton(
-                isSelected = false,
-                onSelectClick = { /*TODO*/ },
+                isSelected = order is NoteOrder.Title,
+                onSelectClick = { onOrderChange(NoteOrder.Title(order.orderType)) },
                 text = stringResource(R.string.title)
             )
-//            Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                isSelected = true,
-                onSelectClick = { /*TODO*/ },
+                isSelected = order is NoteOrder.Date,
+                onSelectClick = { onOrderChange(NoteOrder.Date(order.orderType)) },
                 text = stringResource(R.string.date)
             )
-//            Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                isSelected = false,
-                onSelectClick = { /*TODO*/ },
+                isSelected = order is NoteOrder.Color,
+                onSelectClick = { onOrderChange(NoteOrder.Color(order.orderType)) },
                 text = stringResource(R.string.color)
             )
         }
         Row {
             DefaultRadioButton(
-                isSelected = false,
-                onSelectClick = { /*TODO*/ },
+                isSelected = order.orderType is OrderType.Ascending,
+                onSelectClick = { onOrderChange(order.copy(OrderType.Ascending)) },
                 text = stringResource(R.string.ascending)
             )
-//            Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                isSelected = true,
-                onSelectClick = { /*TODO*/ },
+                isSelected = order.orderType is OrderType.Descending,
+                onSelectClick = { onOrderChange(order.copy(OrderType.Descending)) },
                 text = stringResource(R.string.descending)
             )
         }

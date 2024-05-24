@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composenotesapp.asState
 import com.example.composenotesapp.domain.use_case.NotesUseCases
-import com.example.composenotesapp.ui.add_edit_note.UIEvent
+import com.example.composenotesapp.domain.util.NoteOrder
+import com.example.composenotesapp.domain.util.OrderType
 import com.example.composenotesapp.ui.models.NoteUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,12 +23,12 @@ class NotesViewModel @Inject constructor(
     private var recentlyDeletedNote: NoteUIModel? = null
 
     init {
-        getNotes()
+        getNotes(notesState.value.noteOrder)
     }
 
-    private fun getNotes() {
+    private fun getNotes(noteOrder: NoteOrder) {
         viewModelScope.launch {
-            notesUseCases.getNotes().collect {
+            notesUseCases.getNotes(noteOrder).collect {
                 _notesState.value = notesState.value.copy(notes = it)
             }
         }
@@ -54,6 +53,16 @@ class NotesViewModel @Inject constructor(
                     notesUseCases.addNote(recentlyDeletedNote ?: return@launch)
                     recentlyDeletedNote = null
                 }
+            }
+
+            is NotesEvent.ChangeOrder -> {
+                if (notesState.value.noteOrder::class == event.noteOrder::class &&
+                    notesState.value.noteOrder.orderType == event.noteOrder.orderType
+                ) {
+                    return
+                }
+                getNotes(event.noteOrder)
+                _notesState.value = notesState.value.copy(noteOrder = event.noteOrder)
             }
         }
     }
