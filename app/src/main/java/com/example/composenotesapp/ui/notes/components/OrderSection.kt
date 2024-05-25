@@ -3,6 +3,7 @@ package com.example.composenotesapp.ui.notes.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composenotesapp.R
 import com.example.composenotesapp.domain.util.NoteOrder
@@ -10,6 +11,7 @@ import com.example.composenotesapp.domain.util.OrderType
 
 @Composable
 fun OrderSection(
+    modifier: Modifier = Modifier,
     order: NoteOrder,
     onOrderChange: (NoteOrder) -> Unit
 ) {

@@ -33,11 +33,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.composenotesapp.R
+import com.example.composenotesapp.TestTags
 import com.example.composenotesapp.ui.Route
 import com.example.composenotesapp.ui.add_edit_note.UIEvent
 import com.example.composenotesapp.ui.notes.components.NoteItem
@@ -93,6 +95,8 @@ fun NotesScreen(
                 exit = fadeOut() + slideOutVertically()
             ) {
                 OrderSection(
+                    modifier = Modifier
+                        .testTag(TestTags.ORDER_SECTION),
                     order = state.noteOrder,
                     onOrderChange = { noteOrder ->
                         viewModel.onEvent(NotesEvent.ChangeOrder(noteOrder))
