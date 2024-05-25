@@ -10,7 +10,7 @@ class GetNote @Inject constructor(val repository: INoteRepository) {
 
     suspend operator fun invoke(noteId: Int): Flow<NoteUIModel> {
         return repository.getNote(noteId).map {
-            it.toNoteUIModel()
+            it!!.toNoteUIModel() //todo handle note coming null properly
         }
     }
 

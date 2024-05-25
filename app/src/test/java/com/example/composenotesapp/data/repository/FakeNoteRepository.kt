@@ -1,9 +1,7 @@
 package com.example.composenotesapp.data.repository
 
-import com.example.composenotesapp.data.model.NoteDataModel
 import com.example.composenotesapp.domain.model.NoteDomainModel
 import com.example.composenotesapp.domain.repository.INoteRepository
-import com.example.composenotesapp.toNoteDomainModelList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -25,7 +23,7 @@ class FakeNoteRepository : INoteRepository {
         notes.remove(note)
     }
 
-    override suspend fun getNote(noteId: Int): Flow<NoteDomainModel> {
-        return flow { notes.find { it.id == noteId } }
+    override suspend fun getNote(noteId: Int): Flow<NoteDomainModel?> {
+        return flow { emit(notes.find { it.id == noteId }) }
     }
 }

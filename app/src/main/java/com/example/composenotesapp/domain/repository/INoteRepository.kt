@@ -8,6 +8,6 @@ interface INoteRepository {
     suspend fun insertNote(note: NoteDomainModel)
     suspend fun getNotes(): Flow<List<NoteDomainModel>>
     suspend fun deleteNote(note: NoteDomainModel)
-    suspend fun getNote(noteId: Int): Flow<NoteDomainModel>
+    suspend fun getNote(noteId: Int): Flow<NoteDomainModel?>
 
 }
