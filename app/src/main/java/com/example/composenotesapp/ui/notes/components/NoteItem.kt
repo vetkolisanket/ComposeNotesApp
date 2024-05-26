@@ -1,12 +1,10 @@
 package com.example.composenotesapp.ui.notes.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,10 +22,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.example.composenotesapp.TestTags
 import com.example.composenotesapp.ui.models.NoteUIModel
 
 @Composable
@@ -40,6 +40,7 @@ fun NoteItem(
 ) {
     Box(
         modifier = modifier
+            .testTag(TestTags.NOTE_ITEM)
     ) {
         Canvas(
             modifier = Modifier.matchParentSize()

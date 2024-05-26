@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -81,6 +83,26 @@ class NotesEndToEndTest {
         composeRule.onNodeWithContentDescription("Save").performClick()
 
         composeRule.onNodeWithText(newTitle).isDisplayed()
+    }
+
+    @Test
+    fun testNotesSortingByTitleDescending() {
+        composeRule.apply {
+            for (i in 1..3) {
+                onNodeWithContentDescription("Add").performClick()
+
+                onNodeWithTag(TestTags.ADD_EDIT_TITLE).performTextInput(i.toString())
+                onNodeWithTag(TestTags.ADD_EDIT_CONTENT).performTextInput(i.toString())
+                onNodeWithContentDescription("Save").performClick()
+            }
+
+            onNodeWithContentDescription("Sort").performClick()
+            onNodeWithContentDescription("Title").performClick()
+            onNodeWithContentDescription("Descending").performClick()
+            onAllNodesWithTag(TestTags.NOTE_ITEM)[0].assertTextContains("3")
+            onAllNodesWithTag(TestTags.NOTE_ITEM)[1].assertTextContains("2")
+            onAllNodesWithTag(TestTags.NOTE_ITEM)[2].assertTextContains("1")
+        }
     }
 
 }
