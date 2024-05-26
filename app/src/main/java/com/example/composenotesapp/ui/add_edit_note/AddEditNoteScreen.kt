@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,7 +25,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -34,10 +32,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composenotesapp.TestTags
 import com.example.composenotesapp.ui.add_edit_note.components.TransparentTextField
 import com.example.composenotesapp.ui.models.NoteUIModel
 import kotlinx.coroutines.flow.collectLatest
@@ -75,7 +73,7 @@ fun AddEditNoteScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Save,
-                    contentDescription = "Save Note"
+                    contentDescription = "Save"
                 )
             }
         },
@@ -126,7 +124,8 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
                 },
                 singleLine = true,
-                textStyle = MaterialTheme.typography.headlineMedium
+                textStyle = MaterialTheme.typography.headlineMedium,
+                testTag = TestTags.ADD_EDIT_TITLE
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentTextField(
@@ -140,7 +139,8 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.bodyLarge
+                textStyle = MaterialTheme.typography.bodyLarge,
+                testTag = TestTags.ADD_EDIT_CONTENT
             )
         }
     }

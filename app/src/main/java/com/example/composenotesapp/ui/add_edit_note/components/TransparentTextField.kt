@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun TransparentTextField(
+    modifier: Modifier = Modifier,
     text: String,
     hint: String,
     isHintVisible: Boolean,
@@ -19,7 +21,7 @@ fun TransparentTextField(
     onFocusChange: (FocusState) -> Unit,
     singleLine: Boolean,
     textStyle: TextStyle = TextStyle(),
-    modifier: Modifier = Modifier
+    testTag: String = ""
 ) {
     Box(
         modifier = modifier
@@ -31,7 +33,8 @@ fun TransparentTextField(
             singleLine = singleLine,
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged { onFocusChange(it) },
+                .onFocusChanged { onFocusChange(it) }
+                .testTag(testTag),
             textStyle = textStyle
         )
         if (isHintVisible) {
